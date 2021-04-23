@@ -32,29 +32,37 @@ func main() {
 		log.Fatal(err)
 	}
 
+	var n int = 0
+	scanner := bufio.NewScanner(file)
+	for scanner.Scan() {
+		n++
+	}
+
 	/* Создаем динамический массив */
-	arr := make([]int, tic)
+	arr := make([]int, n)
 	defer file.Close()
 
 	/* Заполняем массив значениями от 1 до ticket */
-	for i := 0; i < tic; i++ {
+	for i := 0; i < n; i++ {
 		arr[i] = i + 1
 	}
 
 	/* Перемешиваем массив */
 	for i := 0; i < tic-1; i++ {
-		swap(&arr[(i^2+key+i)%tic], &arr[((i+1)^2+key)%(tic-1)])
+		swap(&arr[(i^2+key+i)%n], &arr[((i+1)^2+key)%(n-1)])
 	}
 
 	/* Получаем данные из файла и выводим на консоль с указанием номера билета*/
 	var i int = 0
-	scanner := bufio.NewScanner(file)
-	for scanner.Scan() {
-		fmt.Println(scanner.Text(), arr[i])
+	file.Close()
+	file_sec, err := os.Open("Students")
+	scan := bufio.NewScanner(file_sec)
+	for scan.Scan() {
+		fmt.Println(scan.Text(), arr[i]%tic+1)
 		i++
 	}
 
-	if err := scanner.Err(); err != nil {
+	if err := scan.Err(); err != nil {
 		log.Fatal(err)
 	}
 }
