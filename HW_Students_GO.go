@@ -54,9 +54,11 @@ func main() {
 
 	/* Получаем данные из файла и выводим на консоль с указанием номера билета*/
 	var i int = 0
+
 	file.Close()
 	file_sec, err := os.Open("Students")
 	scan := bufio.NewScanner(file_sec)
+
 	for scan.Scan() {
 		fmt.Println(scan.Text(), arr[i]%tic+1)
 		i++
